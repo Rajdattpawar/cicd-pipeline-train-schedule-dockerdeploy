@@ -31,9 +31,10 @@ pipeline {
         stage( "Deploy latest Image") {
          steps {
            sh '''
+             docker pull jenkinsmeetup/train-app:${env.BUILD_NUMBER}
              docker kill nodejs-prod
              docker rm nodejs-prod
-             docker run -p 8081:8080 --name nodejs-prod --restart always -d nodejs
+             docker run -p 8081:8080 --name nodejs-prod --restart always -d jenkinsmeetup/train-app:${env.BUILD_NUMBER}
             '''
          }
       }
