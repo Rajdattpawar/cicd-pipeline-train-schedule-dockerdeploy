@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
-                        app.push("${env.BUILD_NUMBER}")
+                        app.push("$BUILD_ID")
                         app.push("latest")
                     }
                 }
@@ -31,10 +31,10 @@ pipeline {
         stage( "Deploy latest Image") {
          steps {
            sh '''
-             docker pull jenkinsmeetup/train-app:${env.BUILD_NUMBER}
+             docker pull jenkinsmeetup/train-app:$BUILD_ID
              docker kill nodejs-prod
              docker rm nodejs-prod
-             docker run -p 8081:8080 --name nodejs-prod --restart always -d jenkinsmeetup/train-app:${env.BUILD_NUMBER}
+             docker run -p 8081:8080 --name nodejs-prod --restart always -d jenkinsmeetup/train-app:$BUILD_ID
             '''
          }
       }
