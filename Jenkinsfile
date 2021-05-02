@@ -28,7 +28,7 @@ pipeline {
                 }
             }
         }
-        stage( "Deploy latest Image")
+        stage( "Deploy latest Image") {
          steps {
            sh '''
              docker kill nodejs-prod
